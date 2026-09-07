@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Self-Healing Computing System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div><p class="eyebrow">AUTONOMOUS OPERATIONS / SOFTWARE PROTOTYPE</p><h1>Self-Healing <span>Computing</span></h1></div>
+      <div class="pulse"><i></i><span id="last-sync">Connecting...</span></div>
+    </header>
+    <section class="hero-grid">
+      <div class="status-panel panel"><div class="section-label">SYSTEM STATUS</div><div class="status-row"><strong id="system-status">CONNECTING</strong><span class="status-dot" id="status-dot"></span></div><p id="status-caption">Establishing telemetry from the local service.</p><div class="workflow"><span class="active">MONITOR</span><b>→</b><span>DETECT</span><b>→</b><span>DIAGNOSE</span><b>→</b><span>RECOVER</span><b>→</b><span>VERIFY</span></div></div>
+      <div class="actions panel"><div class="section-label">CONTROLLED SIMULATIONS</div><div class="button-grid"><button data-action="/simulate/crash">Simulate crash</button><button data-action="/simulate/high-cpu">Simulate high CPU</button><button data-action="/simulate/high-memory">Simulate high memory</button><button class="accent" data-action="/recover">Run recovery</button><button class="quiet" data-action="/reset">Reset system</button></div><p id="action-message" class="action-message">Actions are scoped to this application runtime.</p></div>
+    </section>
+    <section class="metrics-grid">
+      <article class="metric panel"><span>CPU USAGE</span><strong id="cpu">--</strong><small>host telemetry</small></article><article class="metric panel"><span>MEMORY USAGE</span><strong id="memory">--</strong><small>host telemetry</small></article><article class="metric panel"><span>SERVICE</span><strong id="service">--</strong><small>runtime state</small></article><article class="metric panel"><span>HEALTH</span><strong id="health">--</strong><small>verification result</small></article><article class="metric panel"><span>FAULTS</span><strong id="fault-count">--</strong><small>recorded events</small></article><article class="metric panel"><span>RECOVERIES</span><strong id="recovery-count">--</strong><small><b id="failed-count">--</b> failed</small></article>
+    </section>
+    <section class="data-grid"><div class="panel table-panel"><div class="panel-heading"><div><div class="section-label">FAULT REGISTER</div><h2>Recent fault events</h2></div><span class="record-count" id="fault-record-count">0 records</span></div><div class="table-wrap"><table><thead><tr><th>Type</th><th>Severity</th><th>Diagnosis</th><th>Status</th></tr></thead><tbody id="faults"><tr><td colspan="4" class="empty">No events recorded yet.</td></tr></tbody></table></div></div><div class="panel table-panel"><div class="panel-heading"><div><div class="section-label">RECOVERY LOG</div><h2>Healing attempts</h2></div></div><div class="table-wrap"><table><thead><tr><th>Action</th><th>Result</th><th>Attempts</th></tr></thead><tbody id="recoveries"><tr><td colspan="3" class="empty">No recovery events yet.</td></tr></tbody></table></div></div></section>
+    <footer><span>LOCAL CONTROL PLANE</span><span>Software-level self-healing demonstration · no hardware repair</span></footer>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>

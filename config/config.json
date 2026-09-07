@@ -1,0 +1,8 @@
+{
+  "monitor_interval": 5,
+  "cpu_threshold": 80,
+  "memory_threshold": 80,
+  "max_recovery_attempts": 3,
+  "health_check_timeout": 3,
+  "response_failure_limit": 3
+}
