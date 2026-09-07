@@ -22,7 +22,6 @@ ROOT = Path(__file__).resolve().parent.parent
 CONFIG_PATH = ROOT / "config" / "config.json"
 DATABASE_PATH = ROOT / "database" / "system.db"
 LOG_PATH = ROOT / "logs" / "system.log"
-MAX_METRIC_RECORDS = 10_000
 
 with CONFIG_PATH.open(encoding="utf-8") as config_file:
     CONFIG: dict[str, Any] = json.load(config_file)
@@ -46,18 +45,13 @@ def utc_now() -> str:
 
 
 def connection() -> sqlite3.Connection:
-    # The monitor thread and API requests can write at the same time.  Waiting
-    # briefly and using WAL mode prevents transient "database is locked" errors.
-    db = sqlite3.connect(DATABASE_PATH, timeout=10)
-    db.execute("PRAGMA busy_timeout = 10000")
-    db.execute("PRAGMA foreign_keys = ON")
+    db = sqlite3.connect(DATABASE_PATH)
     db.row_factory = sqlite3.Row
     return db
 
 
 def initialize_database() -> None:
     with connection() as db:
-        db.execute("PRAGMA journal_mode = WAL")
         db.executescript("""
         CREATE TABLE IF NOT EXISTS faults (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -91,7 +85,6 @@ def initialize_database() -> None:
 def save_metrics(metrics: dict[str, Any]) -> None:
     with connection() as db:
         db.execute("INSERT INTO system_metrics (timestamp, cpu_usage, memory_usage, service_status) VALUES (?, ?, ?, ?)", (utc_now(), metrics["cpu_usage"], metrics["memory_usage"], "RUNNING" if metrics["service_running"] else "STOPPED"))
-        db.execute("DELETE FROM system_metrics WHERE id NOT IN (SELECT id FROM system_metrics ORDER BY id DESC LIMIT ?)", (MAX_METRIC_RECORDS,))
 
 
 def process_fault(fault: dict[str, str], auto_recover: bool = True) -> dict[str, Any]:
